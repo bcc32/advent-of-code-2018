@@ -18,11 +18,19 @@ let main () =
     loop 0
   in
   let outcome = full_rounds * Battlefield.sum_of_hit_points battlefield in
-  printf "%d\n" outcome;
+  printf !"%d\n%{Battlefield#hum}\n" outcome battlefield;
   return ()
 ;;
 
 let%expect_test "a" =
   let%bind () =  main () in
-  [%expect {| 194256 |}]
+  [%expect {|
+    29480
+    #######
+    #G.G..#
+    #.#...#
+    #.###.#
+    #.#.#.#
+    #G.G#.#
+    ####### |}]
 ;;
