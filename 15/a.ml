@@ -23,6 +23,6 @@ let main () =
 ;;
 
 let%expect_test "a" =
-  let%bind () = main () in
+  let%bind () = show_raise' (fun () -> main ()) in
   [%expect {| output |}]
 ;;
