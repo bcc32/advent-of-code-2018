@@ -54,25 +54,30 @@ let parse_line =
 
 module Point = struct
   type t =
-    { x : int;
-      y : int
+    { x : int
+    ; y : int
     }
   [@@deriving compare, hash, sexp_of]
 end
 
 module Material = struct
-  type t = Sand | Clay
+  type t =
+    | Sand
+    | Clay
+    | Water_passed_through
+    | Water_settled
+  [@@deriving sexp_of]
 end
 
 let render (veins : Line_spec.t list) =
   let grid = Hashtbl.create (module Point) in
-  veins |> List.iter ~f:(fun { x; y } ->
+  veins
+  |> List.iter ~f:(fun { x; y } ->
     for x = x.lo to x.hi do
       for y = y.lo to y.hi do
-        Hashtbl.add_exn grid ~key:{x;y} ~data:Material.Clay
+        Hashtbl.set grid ~key:{ x; y } ~data:Material.Clay
       done
-    done
-  );
+    done);
   grid
 ;;
 
